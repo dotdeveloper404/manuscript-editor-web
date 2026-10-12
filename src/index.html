@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manuscript Editor: Edit Your Whole Book</title>
+  <meta name="description" content="Professional editing, proofreading, book formatting and audio-to-manuscript for Windows. Runs on your own PC, with no subscriptions and no cloud AI.">
+  <meta name="theme-color" content="#0f1222">
+  <meta property="og:title" content="Manuscript Editor">
+  <meta property="og:description" content="Edit your whole book. Keep every decision. Runs on your own PC.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Manuscript Editor home">
+        <img src="favicon.svg" alt="" width="30" height="30">
+        <span>Manuscript Editor</span>
+      </a>
+      <nav class="nav-links" id="nav-links" aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#audio">Audio</a>
+        <a href="#formatting">Formatting</a>
+        <a href="#details">Details</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+        </button>
+        <a class="btn btn-primary btn-sm" href="#download" data-download>Download</a>
+        <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="glow glow-a" aria-hidden="true"></div>
+      <div class="glow glow-b" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="dot"></span> Free test build for Windows · Works offline</p>
+          <h1>Edit your whole book.<br><em>Keep every decision.</em></h1>
+          <p class="lead">Manuscript Editor reads your entire manuscript, flags what truly needs attention and explains why.
+            Then it formats it for print and exports a Word file that keeps your own structure. Nothing changes until you say so.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary btn-lg" href="#download" data-download>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+              Download for Windows
+            </a>
+            <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
+          </div>
+          <p class="meta" data-download-meta>Windows 10 / 11 · 64-bit</p>
+          <ul class="trust">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>No subscription</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>No cloud AI</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>Your book stays on your PC</li>
+          </ul>
+        </div>
+
+        <div class="mock reveal" aria-label="Preview of the editor showing a suggestion" role="img">
+          <div class="mock-bar">
+            <span></span><span></span><span></span>
+            <p>Chapter 3: The Lighthouse</p>
+          </div>
+          <div class="mock-body">
+            <div class="mock-text">
+              <p class="mock-pass"><b>Line editing</b> · 12 suggestions</p>
+              <p>Mara <mark class="hl hl-a">looked</mark> at the tide, then <mark class="hl hl-a">looked</mark> back at the keeper's house. The lamp had been dark for three nights.</p>
+              <p>She <mark class="hl hl-b">could of</mark> turned back. Instead she climbed the hundred and twelve steps, counting each one under her breath.</p>
+              <p class="faint">The door at the top was open. Inside, the logbook lay on the desk, its last entry dated <mark class="hl hl-c">14 March</mark>.</p>
+            </div>
+            <div class="mock-cards">
+              <div class="card-s float-1">
+                <p class="tag tag-sugg">Repetition · Suggestion</p>
+                <p class="orig"><s>looked back</s> → <b>glanced back</b></p>
+                <p class="why">"looked" appears twice in one sentence.</p>
+                <div class="card-actions"><span class="a">Accept</span><span>Reject</span><span>Edit…</span></div>
+              </div>
+              <div class="card-s float-2">
+                <p class="tag tag-err">Grammar · Error</p>
+                <p class="orig"><s>could of</s> → <b>could have</b></p>
+                <div class="card-actions"><span class="a">Accept</span><span>Reject</span></div>
+              </div>
+              <div class="card-s float-3">
+                <p class="tag tag-cont">Continuity</p>
+                <p class="why">Chapter 1 dates the last entry <b>12 March</b>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats" aria-label="At a glance">
+      <div class="wrap stats-grid">
+        <div class="stat reveal"><b>4</b><span>editing passes, from structure to proofreading</span></div>
+        <div class="stat reveal"><b>10</b><span>analyzers that read the whole book at once</span></div>
+        <div class="stat reveal"><b>5</b><span>print-ready book templates</span></div>
+        <div class="stat reveal"><b>$0</b><span>in AI fees. Everything runs on your PC</span></div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="kicker">Features</p>
+          <h2>An editor that respects the author</h2>
+          <p>Not a chatbot, and it never rewrites in secret. Every change is a suggestion showing the original, the edit
+            and the reason, and you accept, reject or ignore it.</p>
+        </div>
+        <div class="features">
+          <article class="feature reveal">
+            <div class="f-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg></div>
+            <h3>Reads the whole book</h3>
+            <p>Every check sees every chapter, so a detail in chapter 20 is compared with what you set up in chapter 2: names, dates, eye colours, timelines.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="f-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></div>
+            <h3>You decide every change</h3>
+            <p>Each suggestion is marked Error or Suggestion, with a severity. Accept, reject, ignore or write your own fix, using the keyboard if you like.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="f-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h12M3 18h7"/></svg></div>
+            <h3>Four editing passes</h3>
+            <p>Structural, Line editing, Copyediting and Proofreading, in the order a professional editor works, so big fixes come before commas.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="f-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v6c0 4.4 3.4 7.7 8 8 4.6-.3 8-3.6 8-8V7z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Your original is never touched</h3>
+            <p>The upload is stored separately and never modified. Edits go into a new revision, and you can always download the original again.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="f-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
+            <h3>Auto Correct Everything</h3>
+            <p>Accept the safe fixes in one go (spelling, grammar, punctuation, capitals) and see the count first. Names are left alone, and one click undoes it all.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="f-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h4"/></svg></div>
+            <h3>Keeps your Word layout</h3>
+            <p>Accepted edits go straight into your own .docx, so your headings, chapters, styles and front matter stay exactly as you made them.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section alt" id="how">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="kicker">How it works</p>
+          <h2>From first draft to finished file in five steps</h2>
+        </div>
+        <ol class="steps">
+          <li class="step reveal"><span class="n">1</span><h3>Upload</h3><p>Word, text, Markdown or PDF. Chapters are found from your headings, and italics are kept.</p></li>
+          <li class="step reveal"><span class="n">2</span><h3>Analyse</h3><p>Grammar, style, pacing, dialogue, point of view, tense and continuity, across the whole book.</p></li>
+          <li class="step reveal"><span class="n">3</span><h3>Review</h3><p>Work through each pass. See the original, the suggestion and why. You choose.</p></li>
+          <li class="step reveal"><span class="n">4</span><h3>Apply &amp; re-check</h3><p>Accepted edits become a new revision, which is checked again for the next pass.</p></li>
+          <li class="step reveal"><span class="n">5</span><h3>Export</h3><p>The edited book (.docx, .txt, .md), a marked-up corrections report, or the full edit log.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- AUDIO -->
+    <section class="section" id="audio">
+      <div class="wrap split">
+        <div class="reveal">
+          <p class="kicker">Audio to manuscript</p>
+          <h2>Talk your book. We'll type it.</h2>
+          <p class="lead-sm">Record a chapter whenever you're ready, on any day, and add it to your audio project.
+            Each recording is transcribed on your own computer with open-source speech models, with no per-minute fees.</p>
+          <ul class="checks">
+            <li><b>Clean text automatically.</b> Ums, uhs and stutters are removed, and paragraphs follow your pauses.</li>
+            <li><b>Say "Chapter three. The return."</b> and it becomes the chapter title.</li>
+            <li><b>Check before you build.</b> Unclear passages are flagged, and you can play exactly that bit of audio.</li>
+            <li><b>Optional ghostwriting</b> with a local model turns a spoken transcript into a polished chapter, with invented facts flagged for you.</li>
+            <li><b>One click to a manuscript</b> that opens in the editor, ready to proofread and format.</li>
+          </ul>
+          <p class="small">Accepts MP3, M4A, WAV, OGG, FLAC, AAC, WMA and common video files.</p>
+        </div>
+        <div class="audio-mock reveal" aria-hidden="true">
+          <div class="rec">
+            <div class="rec-head"><span class="badge ok">Done</span><b>Chapter 1: Where It Began</b><span class="t">12:41</span></div>
+            <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="rec">
+            <div class="rec-head"><span class="badge run">Transcribing</span><b>Chapter 2: The Move</b><span class="t">64%</span></div>
+            <div class="bar"><span style="width:64%"></span></div>
+            <p class="rec-msg">Transcribing 6:10 of 9:38 · about 3 min left</p>
+          </div>
+          <div class="rec dim">
+            <div class="rec-head"><span class="badge">Queued</span><b>Chapter 3: Letters Home</b><span class="t">15:02</span></div>
+          </div>
+          <div class="build-btn">Build manuscript →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMATTING -->
+    <section class="section alt" id="formatting">
+      <div class="wrap split split-rev">
+        <div class="book-mock reveal" aria-hidden="true">
+          <div class="page left">
+            <p class="rh">A. Writer</p>
+            <p class="ln"></p><p class="ln"></p><p class="ln short"></p><p class="ln"></p><p class="ln"></p><p class="ln"></p><p class="ln short"></p><p class="ln"></p><p class="ln"></p>
+            <p class="pn">48</p>
+          </div>
+          <div class="page right">
+            <p class="ch-num">Chapter Four</p>
+            <p class="ch-title">The Long Way Round</p>
+            <p class="sc"><span class="drop">T</span>HE ROAD NORTH</p>
+            <p class="ln"></p><p class="ln"></p><p class="ln short"></p><p class="ln"></p><p class="ln"></p>
+            <p class="pn">49</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <p class="kicker">Book formatting</p>
+          <h2>Print-ready, without fighting Word</h2>
+          <p class="lead-sm">Choose a template, page size and fonts, and watch a live two-page preview built from your own chapters.
+            Export a styled Word book that's ready for print-on-demand.</p>
+          <div class="chips">
+            <span>Classic Novel</span><span>Memoir</span><span>Modern Nonfiction</span><span>Self-Help</span><span>Children's</span>
+          </div>
+          <ul class="checks">
+            <li><b>Trim sizes</b> from 5×8 to 8.5×11 and A5, with mirrored margins and a gutter sized to your page count.</li>
+            <li><b>Chapter openings</b> with a lowered title, small-caps first line and an optional scene-break ornament.</li>
+            <li><b>Running heads and page numbers</b>, plus a real Word table of contents that updates itself.</li>
+            <li><b>Typography cleanup</b>: curly quotes, em dashes, ellipses and number ranges, matched to your own style.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section class="section" id="privacy">
+      <div class="wrap">
+        <div class="privacy reveal">
+          <div>
+            <p class="kicker">Private by design</p>
+            <h2>Your manuscript never leaves your computer</h2>
+            <p>Manuscript Editor runs entirely on your PC using open-source tools, including LanguageTool, spaCy and Whisper.
+              There are no cloud AI calls and no per-word fees, and nobody trains on your book. An internet connection is only
+              needed once, to download the speech and writing models the first time you use them.</p>
+          </div>
+          <ul class="privacy-list">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Stored on your own drive</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h4l3-8 6 16 3-8h4"/></svg>Works offline after setup</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Separate accounts for each writer</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Every change can be undone</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DETAILS -->
+    <section class="section alt" id="details">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="kicker">Product details</p>
+          <h2>What you need, and what it handles</h2>
+        </div>
+        <div class="specs reveal">
+          <dl>
+            <div><dt>Operating system</dt><dd>Windows 10 or 11, 64-bit</dd></div>
+            <div><dt>Memory</dt><dd>8 GB RAM recommended (16 GB for the larger writing model)</dd></div>
+            <div><dt>Disk space</dt><dd>About 1.5 GB for the app, plus 0.15–5 GB for optional speech and writing models</dd></div>
+            <div><dt>Internet</dt><dd>Only to download models the first time. Everything else works offline</dd></div>
+            <div><dt>Installation</dt><dd>Per-user installer. No administrator rights needed</dd></div>
+          </dl>
+          <dl>
+            <div><dt>Manuscripts in</dt><dd>.docx, .txt, .md, .pdf, or pasted text</dd></div>
+            <div><dt>Exports</dt><dd>Edited or original .docx, .txt, .md · formatted print .docx · corrections report · edit log .csv · full report .json</dd></div>
+            <div><dt>Audio in</dt><dd>MP3, M4A, WAV, OGG, Opus, FLAC, AAC, WMA, WebM, MP4, MKV, MOV, 3GP, AMR (up to 500 MB each)</dd></div>
+            <div><dt>Genres</dt><dd>Novels, memoir, nonfiction, self-help, children's and academic books</dd></div>
+            <div><dt>Languages</dt><dd>Editing is tuned for English. Transcription detects the spoken language</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="wrap narrow">
+        <div class="section-head reveal">
+          <p class="kicker">FAQ</p>
+          <h2>Questions authors ask</h2>
+        </div>
+        <div class="faq reveal">
+          <details>
+            <summary>Will it change my book without asking?</summary>
+            <p>No. Every change is a suggestion you accept, reject or ignore. Even Auto Correct only accepts the safe fixes you choose, and one click undoes it. Your original upload is kept untouched.</p>
+          </details>
+          <details>
+            <summary>Do I need an internet connection or an AI subscription?</summary>
+            <p>No subscription, ever. The app runs on your PC. It only goes online the first time you use transcription or ghostwriting, to download the free open-source model once.</p>
+          </details>
+          <details>
+            <summary>Windows says "Windows protected your PC". Is it safe?</summary>
+            <p>This is a test build that isn't code-signed yet, so Windows SmartScreen shows "unknown publisher". Click <b>More info</b>, then <b>Run anyway</b> to install.</p>
+          </details>
+          <details>
+            <summary>Will my Word headings and styles survive?</summary>
+            <p>Yes. Accepted edits are written into your own .docx in place, so chapters, headings, intro pages and styles stay as you made them.</p>
+          </details>
+          <details>
+            <summary>How long does transcription take?</summary>
+            <p>On a typical laptop, a few minutes for a four-minute recording in Balanced quality. You can keep working while recordings wait in the queue.</p>
+          </details>
+          <details>
+            <summary>Is there a Mac version?</summary>
+            <p>Not yet. The test build is Windows only.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD -->
+    <section class="section download" id="download">
+      <div class="wrap">
+        <div class="download-card reveal">
+          <div class="glow glow-c" aria-hidden="true"></div>
+          <img src="favicon.svg" alt="" width="64" height="64">
+          <h2>Ready to finish your book?</h2>
+          <p>Download Manuscript Editor for Windows and open your manuscript in minutes.</p>
+          <a class="btn btn-light btn-lg" href="#download" data-download>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+            <span data-download-label>Download for Windows</span>
+          </a>
+          <p class="meta" data-download-meta>Windows 10 / 11 · 64-bit</p>
+          <p class="os-note" id="os-note" hidden>You seem to be on a Mac or phone. Manuscript Editor currently runs on Windows PCs.</p>
+          <ol class="install">
+            <li>Run <code>ManuscriptEditor-Setup.exe</code></li>
+            <li>If Windows warns you, choose <b>More info → Run anyway</b></li>
+            <li>Open the app and create your account. The first account is the admin</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-inner">
+      <a class="brand" href="#top"><img src="favicon.svg" alt="" width="24" height="24"><span>Manuscript Editor</span></a>
+      <p>Built with open-source tools. Runs on your own computer.</p>
+      <p class="copy">© <span id="year">2026</span> Manuscript Editor</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

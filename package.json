@@ -1,0 +1,15 @@
+{
+  "name": "manuscript-editor-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Product and download page for Manuscript Editor",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check",
+    "preview": "node scripts/build.mjs && npx --yes serve@14.2.4 dist -l 5050"
+  }
+}
