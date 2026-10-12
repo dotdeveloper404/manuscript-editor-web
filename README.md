@@ -1,4 +1,4 @@
-# Manuscript Editor: product website
+# Manuscript Editor & Formatter: product website
 
 A one-page product and download site. Plain HTML, CSS and JavaScript with **no dependencies**, so it builds in
 under a second. Every push to `master` goes live on **Vercel** through GitHub Actions

@@ -1,4 +1,4 @@
-// Manuscript Editor: product site behaviour (no dependencies)
+// Manuscript Editor & Formatter: product site behaviour (no dependencies)
 (function () {
   var root = document.documentElement;
   root.classList.add("js");
