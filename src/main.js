@@ -58,6 +58,33 @@
     finalButton.addEventListener("click", function (e) { e.preventDefault(); });
   }
 
+  // Buy buttons: a checkout link per plan, else an email to the seller, else "coming soon".
+  var buy = cfg.buy || {};
+  var contact = (cfg.contactEmail || "").trim();
+  var planNames = { writer: "Writer", pro: "Author Pro", studio: "Studio" };
+  document.querySelectorAll("[data-buy]").forEach(function (a) {
+    var plan = a.getAttribute("data-buy");
+    var link = (buy[plan] || "").trim();
+    if (link) {
+      a.setAttribute("href", link);
+      a.setAttribute("rel", "noopener");
+    } else if (contact) {
+      a.setAttribute("href", "mailto:" + contact + "?subject=" +
+        encodeURIComponent("Buy Manuscript Editor & Formatter: " + planNames[plan]));
+    } else {
+      a.textContent = "Available soon";
+      a.classList.add("is-disabled");
+      a.setAttribute("aria-disabled", "true");
+      a.addEventListener("click", function (e) { e.preventDefault(); });
+    }
+  });
+  var offer = (cfg.launchOffer || "").trim();
+  if (offer) {
+    var offerEl = document.getElementById("launch-offer");
+    offerEl.textContent = offer;
+    offerEl.hidden = false;
+  }
+
   // Visitors not on Windows get a note
   var ua = navigator.userAgent || "";
   if (!/Windows/i.test(ua)) document.getElementById("os-note").hidden = false;
