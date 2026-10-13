@@ -1,13 +1,13 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "runtime": "55b0cbe6833dc24b",
-  "notes": "First test version",
-  "published": "2026-10-12T15:14:00+00:00",
+  "notes": "\u2022 add a custom audio feature in audio module",
+  "published": "2026-10-13T02:10:01+00:00",
   "app": {
-    "file": "app-0.1.0.zip",
-    "sha256": "390c8803032890d388c431a7fcecc2409c857b251c845e1b36ff4f5d40544a46",
-    "size": 14030738,
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.1.0/app-0.1.0.zip"
+    "file": "app-0.2.0.zip",
+    "sha256": "4f3a10fe5b9ef0308ee20708a8f6a97ad4ce1f462a0eadbd3a38db52ef6faa4a",
+    "size": 14039668,
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.2.0/app-0.2.0.zip"
   },
   "installer": {
     "file": "ManuscriptEditor-Setup-0.1.0.exe",
@@ -16,5 +16,5 @@
     "version": "0.1.0",
     "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.1.0/ManuscriptEditor-Setup-0.1.0.exe"
   },
-  "signature": "a17ec8a6ba08cf81df6ebd918a58a67b0213d3c148a2cb1b818c6974a3e168e7027d857688292ccf951fb68881796092ca8dac51e8d27507e3a69f75d19c820e"
+  "signature": "33f346c6808df30908f93d8959256e2c3b034a008a32aa8e75cf44dc00db0d8fb3fcf1bd7cd514709547223bdaf8d57794a2906020d0b5b0baf545ba891a2606"
 }
