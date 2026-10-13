@@ -1,20 +1,20 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.1",
   "runtime": "55b0cbe6833dc24b",
-  "notes": "\u2022 Add Pricing Model",
-  "published": "2026-10-13T03:31:29+00:00",
+  "notes": "\u2022 bug in exe files",
+  "published": "2026-10-13T04:12:01+00:00",
   "app": {
-    "file": "app-0.3.0.zip",
-    "sha256": "cdaebb7acbc22caa5240b6a9d6350530fcf5a4cb9e28e53cc69afb6114b9978e",
-    "size": 14086769,
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.0/app-0.3.0.zip"
+    "file": "app-0.3.1.zip",
+    "sha256": "001fc76ae2a2088fc7e74eda5e74919c759361601da1429064f30d00554b8bc1",
+    "size": 14087248,
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.1/app-0.3.1.zip"
   },
   "installer": {
-    "file": "ManuscriptEditor-Setup-0.1.0.exe",
-    "sha256": "b26f674c6d3b391a955888e5fc9e3cd9c33e809673e20368e798b9d459acc289",
-    "size": 489612809,
-    "version": "0.1.0",
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.1.0/ManuscriptEditor-Setup-0.1.0.exe"
+    "file": "ManuscriptEditor-Setup-0.3.1.exe",
+    "sha256": "2090951590fad698c6f72410c9c88cc80c5460e5866505c6d5d160d275c5bd0c",
+    "size": 489530801,
+    "version": "0.3.1",
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.1/ManuscriptEditor-Setup-0.3.1.exe"
   },
-  "signature": "3677bf4bf960e70a4063fd8fb65677f89b8ccce38d29df29808fda89494028d3a67f7f6b557b2dd4d0af1e2c009c5279cb63a9df75d4e1ceb8d410920b82a40b"
+  "signature": "53e0f189e0a42d7253ebbacfa9bb10915ef85e02067289606f607f6a24935fbcf7e5fc46be60d8a49a4961799ee365d857f1831b3ee363c1a996004f8c53aa0f"
 }
