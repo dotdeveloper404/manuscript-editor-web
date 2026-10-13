@@ -1,13 +1,13 @@
 {
-  "version": "0.3.1",
+  "version": "0.3.2",
   "runtime": "55b0cbe6833dc24b",
-  "notes": "\u2022 bug in exe files",
-  "published": "2026-10-13T04:12:01+00:00",
+  "notes": "\u2022 Free trial is now 7 days with every feature",
+  "published": "2026-10-13T05:01:02+00:00",
   "app": {
-    "file": "app-0.3.1.zip",
-    "sha256": "001fc76ae2a2088fc7e74eda5e74919c759361601da1429064f30d00554b8bc1",
-    "size": 14087248,
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.1/app-0.3.1.zip"
+    "file": "app-0.3.2.zip",
+    "sha256": "10cfd1c5fbc81d1846540cbf20a70bf57fff21de4d9c879357542b3f0a6ad0f6",
+    "size": 14087367,
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.2/app-0.3.2.zip"
   },
   "installer": {
     "file": "ManuscriptEditor-Setup-0.3.1.exe",
@@ -16,5 +16,5 @@
     "version": "0.3.1",
     "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.1/ManuscriptEditor-Setup-0.3.1.exe"
   },
-  "signature": "53e0f189e0a42d7253ebbacfa9bb10915ef85e02067289606f607f6a24935fbcf7e5fc46be60d8a49a4961799ee365d857f1831b3ee363c1a996004f8c53aa0f"
+  "signature": "4699d20b6854a5216b0175d82796f035c8e850b4435e4beb6cf697a7ed8678fafd7f6c2fe4dae4f7c3b6fbdc7897a8d7ab22bf839e90e4e8c14dfe56e040a905"
 }
