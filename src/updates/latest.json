@@ -1,13 +1,13 @@
 {
-  "version": "0.3.2",
+  "version": "0.4.0",
   "runtime": "55b0cbe6833dc24b",
-  "notes": "\u2022 Free trial is now 7 days with every feature",
-  "published": "2026-10-13T05:01:02+00:00",
+  "notes": "\u2022 More reliable start-up and clearer errors , also book cover design module",
+  "published": "2026-10-14T02:57:49+00:00",
   "app": {
-    "file": "app-0.3.2.zip",
-    "sha256": "10cfd1c5fbc81d1846540cbf20a70bf57fff21de4d9c879357542b3f0a6ad0f6",
-    "size": 14087367,
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.2/app-0.3.2.zip"
+    "file": "app-0.4.0.zip",
+    "sha256": "1ebd1c8332b6f1e0353a18da388424e1c041b44f320e99ac67ee0cab0335e1ac",
+    "size": 14150252,
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.4.0/app-0.4.0.zip"
   },
   "installer": {
     "file": "ManuscriptEditor-Setup-0.3.1.exe",
@@ -16,5 +16,5 @@
     "version": "0.3.1",
     "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.1/ManuscriptEditor-Setup-0.3.1.exe"
   },
-  "signature": "4699d20b6854a5216b0175d82796f035c8e850b4435e4beb6cf697a7ed8678fafd7f6c2fe4dae4f7c3b6fbdc7897a8d7ab22bf839e90e4e8c14dfe56e040a905"
+  "signature": "930af56af0fdf95f70e44b5dcd34b5b146ec659a22e4fe902a3e703d3553ad86fbe4e702f1e0d88e719bef69b6269f740213447d476ccda7d9de33bf8ba9f402"
 }
