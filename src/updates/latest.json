@@ -1,13 +1,13 @@
 {
-  "version": "0.4.0",
+  "version": "0.4.1",
   "runtime": "55b0cbe6833dc24b",
-  "notes": "\u2022 More reliable start-up and clearer errors , also book cover design module",
-  "published": "2026-10-14T02:57:49+00:00",
+  "notes": "\u2022 Fixes the crash when uploading a manuscript\n\u2022 book cover fixes ,  add spine, front and back cover upload separately",
+  "published": "2026-10-15T11:37:06+00:00",
   "app": {
-    "file": "app-0.4.0.zip",
-    "sha256": "1ebd1c8332b6f1e0353a18da388424e1c041b44f320e99ac67ee0cab0335e1ac",
-    "size": 14150252,
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.4.0/app-0.4.0.zip"
+    "file": "app-0.4.1.zip",
+    "sha256": "2aaaadeffefc3b474834aece7fc3a8d45c14c5edb6b309d03283a27b8dc31844",
+    "size": 14470910,
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.4.1/app-0.4.1.zip"
   },
   "installer": {
     "file": "ManuscriptEditor-Setup-0.3.1.exe",
@@ -16,5 +16,5 @@
     "version": "0.3.1",
     "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.3.1/ManuscriptEditor-Setup-0.3.1.exe"
   },
-  "signature": "930af56af0fdf95f70e44b5dcd34b5b146ec659a22e4fe902a3e703d3553ad86fbe4e702f1e0d88e719bef69b6269f740213447d476ccda7d9de33bf8ba9f402"
+  "signature": "df402bb8547a3e668b8c7ac700b28df6ade275c2c45934b310f4b2cb56f3634d76b5f155ec3cff0b6bb87f35deb54207b98a5dd3bf5046fb85f27b115e169309"
 }
