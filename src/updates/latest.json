@@ -1,20 +1,20 @@
 {
-  "version": "0.4.2",
+  "version": "0.5.0",
   "runtime": "55b0cbe6833dc24b",
-  "notes": "\u2022 bug fixes and book cover UI fix",
-  "published": "2026-10-17T03:09:44+00:00",
+  "notes": "\u2022 new feautre add ( Audio Book Module in Manuscript )\n\u2022 Fixes in Book Cover",
+  "published": "2026-10-17T05:07:29+00:00",
   "app": {
-    "file": "app-0.4.2.zip",
-    "sha256": "74e098c2ff3dc2165ede3baa3d9785da9a8120283135deb2089216fc749a2072",
-    "size": 17883897,
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.4.2/app-0.4.2.zip"
+    "file": "app-0.5.0.zip",
+    "sha256": "245cb94c93d1cc40454ca97fe27f1f6b4bd4181831576d96165de5b4a35183f2",
+    "size": 17945212,
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.5.0/app-0.5.0.zip"
   },
   "installer": {
-    "file": "ManuscriptEditor-Setup-0.4.2.exe",
-    "sha256": "aa85b994432eec268dc4375c9e369fd6f55f31c107fd744008657f9e37c752d9",
-    "size": 492431451,
-    "version": "0.4.2",
-    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.4.2/ManuscriptEditor-Setup-0.4.2.exe"
+    "file": "ManuscriptEditor-Setup-0.5.0.exe",
+    "sha256": "3f1e42e207968679d793218fd97696cd3a25e43af76085a5d5fcee49129ce066",
+    "size": 492460519,
+    "version": "0.5.0",
+    "url": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.5.0/ManuscriptEditor-Setup-0.5.0.exe"
   },
-  "signature": "e4428502a45e39bb41a28d15e6113bbd94bf478649ed621d6151a94b4162de07bd7a3f1003a33574f70b214bf7eeedb42284783877f255ddeb55baa8aaa7f402"
+  "signature": "7b75ad2fe93b8e4bc600b73cdc1b27e64719dd3c28d11165593e3e8573e5cca827bed6b76d8bcb530012c3d322885ecedbe689b5443ece4921c3a40ef1739a0a"
 }
