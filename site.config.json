@@ -2,10 +2,25 @@
   "downloadUrl": "https://github.com/dotdeveloper404/manuscript-editor-web/releases/download/v0.5.0/ManuscriptEditor-Setup-0.5.0.exe",
   "version": "0.5.0 (test build)",
   "size": "470 MB",
+  "prices": {
+    "writer": 10,
+    "pro": 20,
+    "studio": 40
+  },
+  "yearlyDiscount": 10,
   "buy": {
-    "writer": "",
-    "pro": "",
-    "studio": ""
+    "writer": {
+      "monthly": "",
+      "yearly": ""
+    },
+    "pro": {
+      "monthly": "",
+      "yearly": ""
+    },
+    "studio": {
+      "monthly": "",
+      "yearly": ""
+    }
   },
   "contactEmail": "",
   "launchOffer": ""

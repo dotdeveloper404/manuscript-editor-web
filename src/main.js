@@ -58,26 +58,68 @@
     finalButton.addEventListener("click", function (e) { e.preventDefault(); });
   }
 
-  // Buy buttons: a checkout link per plan, else an email to the seller, else "coming soon".
+  // Prices: monthly price per plan (config.js, else the page), yearly = 12 months less the yearly discount.
+  var prices = cfg.prices || {};
+  var discount = typeof cfg.yearlyDiscount === "number" ? cfg.yearlyDiscount : 10;
+  function money(n) { return "$" + (Math.round(n * 100) % 100 ? n.toFixed(2) : String(Math.round(n))); }
+
+  // Buy buttons: a checkout link per plan and billing period, else an email to the seller, else "coming soon".
   var buy = cfg.buy || {};
   var contact = (cfg.contactEmail || "").trim();
   var planNames = { writer: "Writer", pro: "Author Pro", studio: "Studio" };
+  function buyLink(plan, period) {
+    var entry = buy[plan];
+    return ((typeof entry === "string" ? entry : entry && entry[period]) || "").trim();
+  }
+
+  var billing = document.getElementById("billing");
+  function showBilling() {
+    var period = billing.value;
+    document.querySelectorAll("[data-price]").forEach(function (el) {
+      var plan = el.getAttribute("data-price");
+      var monthly = Number(prices[plan] || el.getAttribute("data-monthly"));
+      var billed = document.querySelector('[data-billed="' + plan + '"]');
+      if (period === "yearly") {
+        var year = monthly * 12 * (1 - discount / 100);
+        el.querySelector("b").textContent = money(year / 12);
+        el.querySelector("span").textContent = "per month";
+        billed.textContent = money(year) + " billed yearly. You save " + money(monthly * 12 - year) + ".";
+      } else {
+        el.querySelector("b").textContent = money(monthly);
+        el.querySelector("span").textContent = "per month";
+        billed.textContent = "Billed monthly. Cancel any time.";
+      }
+    });
+    document.querySelectorAll("[data-buy]").forEach(function (a) {
+      var plan = a.getAttribute("data-buy");
+      var link = buyLink(plan, period);
+      if (!a.getAttribute("data-label")) a.setAttribute("data-label", a.textContent);
+      a.classList.remove("is-disabled");
+      a.removeAttribute("aria-disabled");
+      a.textContent = a.getAttribute("data-label");
+      if (link) {
+        a.setAttribute("href", link);
+        a.setAttribute("rel", "noopener");
+      } else if (contact) {
+        a.setAttribute("href", "mailto:" + contact + "?subject=" + encodeURIComponent(
+          "Buy Manuscript Editor & Formatter: " + planNames[plan] + " (" + period + ")"));
+      } else {
+        a.setAttribute("href", "#pricing");
+        a.textContent = "Available soon";
+        a.classList.add("is-disabled");
+        a.setAttribute("aria-disabled", "true");
+      }
+    });
+    store("billing", period);
+  }
   document.querySelectorAll("[data-buy]").forEach(function (a) {
-    var plan = a.getAttribute("data-buy");
-    var link = (buy[plan] || "").trim();
-    if (link) {
-      a.setAttribute("href", link);
-      a.setAttribute("rel", "noopener");
-    } else if (contact) {
-      a.setAttribute("href", "mailto:" + contact + "?subject=" +
-        encodeURIComponent("Buy Manuscript Editor & Formatter: " + planNames[plan]));
-    } else {
-      a.textContent = "Available soon";
-      a.classList.add("is-disabled");
-      a.setAttribute("aria-disabled", "true");
-      a.addEventListener("click", function (e) { e.preventDefault(); });
-    }
+    a.addEventListener("click", function (e) { if (a.classList.contains("is-disabled")) e.preventDefault(); });
   });
+  if (store("billing") === "yearly") billing.value = "yearly";
+  billing.addEventListener("change", showBilling);
+  showBilling();
+  var discountText = "Yearly (save " + discount + "%)";
+  billing.querySelector('option[value="yearly"]').textContent = discountText;
   var offer = (cfg.launchOffer || "").trim();
   if (offer) {
     var offerEl = document.getElementById("launch-offer");

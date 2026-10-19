@@ -22,13 +22,22 @@ const config = {
   downloadUrl: process.env.DOWNLOAD_URL || defaults.downloadUrl || "",
   version: process.env.APP_VERSION || defaults.version || "",
   size: process.env.DOWNLOAD_SIZE || defaults.size || "",
-  // Pricing: checkout link per plan (Paddle, Lemon Squeezy, Gumroad …). Without one, the button emails
-  // contactEmail, and without that it reads "Available soon". launchOffer shows a banner above the plans.
-  buy: {
-    writer: process.env.BUY_WRITER_URL || defaults.buy?.writer || "",
-    pro: process.env.BUY_PRO_URL || defaults.buy?.pro || "",
-    studio: process.env.BUY_STUDIO_URL || defaults.buy?.studio || "",
+  // Pricing: monthly price per plan in US dollars; yearly = 12 months minus yearlyDiscount %.
+  prices: {
+    writer: Number(process.env.PRICE_WRITER || defaults.prices?.writer || 10),
+    pro: Number(process.env.PRICE_PRO || defaults.prices?.pro || 20),
+    studio: Number(process.env.PRICE_STUDIO || defaults.prices?.studio || 40),
   },
+  yearlyDiscount: Number(process.env.YEARLY_DISCOUNT ?? defaults.yearlyDiscount ?? 10),
+  // Checkout link per plan and billing period (Lemon Squeezy, Paddle, Gumroad …), e.g. BUY_PRO_YEARLY_URL.
+  // Without one, the button emails contactEmail, and without that it reads "Available soon".
+  // launchOffer shows a banner above the plans.
+  buy: Object.fromEntries(["writer", "pro", "studio"].map((plan) => {
+    const saved = defaults.buy?.[plan];
+    const pick = (period) => process.env[`BUY_${plan.toUpperCase()}_${period.toUpperCase()}_URL`]
+      || (typeof saved === "string" ? saved : saved?.[period]) || "";
+    return [plan, { monthly: pick("monthly"), yearly: pick("yearly") }];
+  })),
   contactEmail: process.env.CONTACT_EMAIL || defaults.contactEmail || "",
   launchOffer: process.env.LAUNCH_OFFER || defaults.launchOffer || "",
 };
@@ -46,8 +55,16 @@ for (const [, file] of html.matchAll(/(?:src|href)="(?!https?:|#|data:|mailto:)(
 if (config.downloadUrl && !/^https:\/\//.test(config.downloadUrl)) {
   problems.push(`DOWNLOAD_URL must start with https:// (got "${config.downloadUrl}")`);
 }
-for (const [plan, link] of Object.entries(config.buy)) {
-  if (link && !/^https:\/\//.test(link)) problems.push(`Buy link for ${plan} must start with https:// (got "${link}")`);
+for (const [plan, links] of Object.entries(config.buy)) {
+  for (const [period, link] of Object.entries(links)) {
+    if (link && !/^https:\/\//.test(link)) problems.push(`Buy link for ${plan} (${period}) must start with https:// (got "${link}")`);
+  }
+}
+for (const [plan, price] of Object.entries(config.prices)) {
+  if (!(price > 0)) problems.push(`Monthly price for ${plan} must be a number above 0 (got "${price}")`);
+}
+if (!(config.yearlyDiscount >= 0 && config.yearlyDiscount < 100)) {
+  problems.push(`yearlyDiscount must be a percentage from 0 to 99 (got "${config.yearlyDiscount}")`);
 }
 if (config.contactEmail && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(config.contactEmail)) {
   problems.push(`contactEmail doesn't look like an email address (got "${config.contactEmail}")`);

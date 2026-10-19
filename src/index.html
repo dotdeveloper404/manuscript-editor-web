@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manuscript Editor &amp; Formatter</title>
-  <meta name="description" content="Edit, proofread and format your manuscript into a print-ready book, on Windows. Runs on your own PC, with no subscriptions and no cloud AI.">
+  <meta name="description" content="Edit, proofread and format your manuscript into a print-ready book, on Windows. Runs on your own PC, with no cloud AI.">
   <meta name="theme-color" content="#0f1222">
   <meta property="og:title" content="Manuscript Editor &amp; Formatter">
   <meta property="og:description" content="Edit and format your whole book. Keep every decision. Runs on your own PC.">
@@ -373,8 +373,15 @@
       <div class="wrap">
         <div class="section-head reveal">
           <p class="kicker">Pricing</p>
-          <h2>Pay once. Keep it forever.</h2>
-          <p>No subscription. Try every feature free for 7 days, then choose the plan that fits your book.</p>
+          <h2>Simple plans, monthly or yearly</h2>
+          <p>Try every feature free for 7 days. Then subscribe monthly, or pay yearly and save 10%. Cancel any time.</p>
+        </div>
+        <div class="billing reveal">
+          <label for="billing">Billing</label>
+          <select id="billing">
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly (save 10%)</option>
+          </select>
         </div>
         <p class="offer reveal" id="launch-offer" hidden></p>
         <div class="plans">
@@ -382,6 +389,7 @@
             <h3>Free trial</h3>
             <p class="for">Try everything before you buy</p>
             <p class="price"><b>$0</b><span>for 7 days</span></p>
+            <p class="billed">No card needed. Just download and start.</p>
             <a class="btn btn-ghost" href="#download" data-download>Start free trial</a>
             <ul>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span><b>Every feature</b> for 7 days</span></li>
@@ -397,7 +405,8 @@
           <article class="plan reveal">
             <h3>Writer</h3>
             <p class="for">For writers with a finished draft</p>
-            <p class="price"><b>$99</b><span>one-time</span></p>
+            <p class="price" data-price="writer" data-monthly="10"><b>$10</b><span>per month</span></p>
+            <p class="billed" data-billed="writer">Billed monthly. Cancel any time.</p>
             <a class="btn btn-ghost" href="#pricing" data-buy="writer">Buy Writer</a>
             <ul>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span><b>Unlimited</b> proofreading, all 4 editing passes</span></li>
@@ -405,7 +414,7 @@
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>Book formatting: templates, trim sizes, print-ready Word book</span></li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>Book cover studio: KDP sizes, fit your artwork, edit cover text</span></li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>2 computers</span></li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>1 year of updates included</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>All updates and new features included</span></li>
               <li class="off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Audiobook studio</span></li>
               <li class="off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Audio to manuscript</span></li>
               <li class="off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Ghostwriting</span></li>
@@ -416,7 +425,8 @@
             <p class="ribbon">Most popular</p>
             <h3>Author Pro</h3>
             <p class="for">For authors who write by voice too</p>
-            <p class="price"><b>$149</b><span>one-time</span></p>
+            <p class="price" data-price="pro" data-monthly="20"><b>$20</b><span>per month</span></p>
+            <p class="billed" data-billed="pro">Billed monthly. Cancel any time.</p>
             <a class="btn btn-primary" href="#pricing" data-buy="pro">Buy Author Pro</a>
             <ul>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span><b>Everything in Writer</b></span></li>
@@ -424,27 +434,28 @@
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span><b>Unlimited</b> audio to manuscript transcription</span></li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>Ghostwriting with a local AI, with invented facts flagged</span></li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>2 computers</span></li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>1 year of updates included</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>All updates and new features included</span></li>
             </ul>
           </article>
 
           <article class="plan reveal">
             <h3>Studio</h3>
             <p class="for">For editors, ghostwriters and small presses</p>
-            <p class="price"><b>$299</b><span>one-time</span></p>
+            <p class="price" data-price="studio" data-monthly="40"><b>$40</b><span>per month</span></p>
+            <p class="billed" data-billed="studio">Billed monthly. Cancel any time.</p>
             <a class="btn btn-ghost" href="#pricing" data-buy="studio">Buy Studio</a>
             <ul>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span><b>Everything in Author Pro</b></span></li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span><b>5 computers</b></span></li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>A separate account for each writer or client</span></li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>1 year of updates included</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg><span>All updates and new features included</span></li>
             </ul>
           </article>
         </div>
 
         <ul class="plan-terms reveal">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>Pay once and keep using your version forever</li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>Optional updates after year one: $39 a year (Studio $79)</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>Pay yearly and save 10%</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>Cancel any time. Your manuscripts stay on your computer</li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>30-day money-back guarantee</li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>Prices in US dollars. Local taxes may apply</li>
         </ul>
@@ -465,7 +476,7 @@
           </details>
           <details>
             <summary>Do I need an internet connection or an AI subscription?</summary>
-            <p>No subscription, ever. The app runs on your PC. It only goes online the first time you use transcription or ghostwriting, to download the free open-source model once.</p>
+            <p>No AI fees, ever. Everything runs on your PC. It only goes online the first time you use transcription or ghostwriting, to download the free open-source model once.</p>
           </details>
           <details>
             <summary>Windows says "Windows protected your PC". Is it safe?</summary>
@@ -488,12 +499,12 @@
             <p>Yes. In the app, open <b>Licence</b> (top right), copy your computer code and send it to us. We'll reply with an extension code that unlocks more days on that computer.</p>
           </details>
           <details>
-            <summary>Is it really a one-time payment?</summary>
-            <p>Yes. You pay once and can use your version forever, with a year of updates included. After that, updates are optional ($39 a year). If you don't renew, nothing stops working.</p>
+            <summary>How does billing work?</summary>
+            <p>Choose monthly or yearly. Paying yearly costs 10% less than paying month by month. Your plan renews by itself, and you can cancel any time: it then stays active until the end of the period you've paid for. Your manuscripts always stay on your computer.</p>
           </details>
           <details>
             <summary>Can I upgrade from Writer to Author Pro later?</summary>
-            <p>Yes. You only pay the difference between the two plans.</p>
+            <p>Yes. You can move to a bigger plan, or switch between monthly and yearly, at any time.</p>
           </details>
           <details>
             <summary>Can the app read my audiobook aloud for me?</summary>

@@ -315,6 +315,13 @@ h1 em { font-style: italic; background: linear-gradient(120deg, var(--accent), v
 
 /* Pricing */
 .offer { max-width: 680px; margin: -28px auto 36px; text-align: center; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 10px 18px; border-radius: 999px; }
+.billing { display: flex; align-items: center; justify-content: center; gap: 10px; margin: -24px 0 40px; font-weight: 600; }
+.billing select { font: 600 .95rem var(--sans); color: var(--text); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: .55em 2.4em .55em 1.1em; cursor: pointer; appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='%237a6bff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right .9em center; background-size: 16px; }
+.billing select:hover, .billing select:focus-visible { border-color: var(--accent); }
+.billed { font-size: .84rem; color: var(--muted); margin: -8px 0 14px; min-height: 2.6em; }
 .plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: stretch; }
 @media (max-width: 1100px) { .plans { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 620px) { .plans { grid-template-columns: 1fr; } }
