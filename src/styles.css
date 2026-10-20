@@ -434,6 +434,7 @@ h1 em { font-style: italic; background: linear-gradient(120deg, var(--accent), v
 .download-card { position: relative; overflow: hidden; text-align: center; color: #fff; border-radius: 32px; padding: 64px 24px;
   background: linear-gradient(135deg, #2d2380 0%, #5b4bdb 45%, #c2477a 100%); display: grid; justify-items: center; gap: 16px; }
 .download-card > * { position: relative; }
+.download-card > .glow { position: absolute; }   /* decoration only: must not take up space */
 .glow-c { width: 500px; height: 500px; background: #fff; opacity: .14; top: -260px; left: 50%; transform: translateX(-50%); }
 .download-card img { border-radius: 16px; box-shadow: 0 14px 30px -10px rgba(0,0,0,.5); }
 .download-card p { color: rgba(255,255,255,.85); max-width: 520px; font-size: 1.08rem; }

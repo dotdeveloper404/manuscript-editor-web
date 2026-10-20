@@ -124,10 +124,17 @@ for (const name of readdirSync(out)) rmSync(join(out, name), { recursive: true, 
 cpSync(src, out, { recursive: true });
 writeFileSync(join(out, "config.js"), `window.SITE_CONFIG = ${JSON.stringify(config, null, 2)};\n`);
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const placeholder = { LEGAL_NAME: "the app's maker", CONTACT_EMAIL: "", COUNTRY: "Pakistan", UPDATED: "" };
+const placeholder = { LEGAL_NAME: "the developer of Manuscript Editor & Formatter", CONTACT_EMAIL: "", COUNTRY: "Pakistan",
+  UPDATED: "" };
 for (const page of pages) {
   const file = join(out, page);
-  const html = readFileSync(file, "utf8").replace(/\{\{(LEGAL_NAME|CONTACT_EMAIL|COUNTRY|UPDATED)\}\}/g,
+  let html = readFileSync(file, "utf8");
+  // Sentences with the support email are marked data-email, with a data-noemail wording (via Paddle) for when
+  // there is no support email yet. Keep the one that applies.
+  const drop = legal.CONTACT_EMAIL ? "noemail" : "email";
+  html = html.replace(new RegExp(`<(span|li) data-${drop}>[\\s\\S]*?</\\1>`, "g"), "")
+    .replace(/ data-(?:no)?email>/g, ">");
+  html = html.replace(/\{\{(LEGAL_NAME|CONTACT_EMAIL|COUNTRY|UPDATED)\}\}/g,
     (_, k) => escapeHtml(legal[k] || placeholder[k]));
   writeFileSync(file, html);
 }
