@@ -1,14 +1,17 @@
-// Checkout: plan + billing summary and PayPal subscription buttons (no dependencies besides PayPal's own script).
+// Checkout: plan + billing summary and Paddle's inline checkout (no dependencies besides Paddle.js).
 //
-// Settings come from config.js (site.config.json → paypal):
-//   paypal.clientId        the PayPal app's Client ID (public; sandbox or live)
-//   paypal.sandbox         true while testing: shows "Test mode"
-//   paypal.plans.{plan}.{monthly|yearly}   PayPal plan IDs ("P-…"), one per plan and billing period
-// Without a PayPal plan for the choice, an external checkout link (buy.{plan}.{period}) or the sales email is offered.
+// Settings come from config.js (site.config.json → paddle):
+//   paddle.clientToken     Paddle client-side token (public): "test_…" = sandbox (shows "Test mode"), "live_…" = live
+//   paddle.prices.{plan}.{monthly|yearly}   Paddle price IDs ("pri_…"), one per plan and billing period
+//   licenceDelivery        "auto" once the webhook emails licence keys, else "manual" (buyer sends their computer code)
+// Without a Paddle price for the choice, an external checkout link (buy.{plan}.{period}), the sales email, or the free
+// trial is offered instead.
 (function () {
   var root = document.documentElement;
   var cfg = window.SITE_CONFIG || {};
-  var paypal = cfg.paypal || {};
+  var paddle = cfg.paddle || {};
+  var token = (paddle.clientToken || "").trim();
+  var sandbox = token.indexOf("test_") === 0;
 
   function store(key, value) {
     try {
@@ -18,12 +21,15 @@
   }
   var saved = store("theme");
   if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
-  document.getElementById("theme-toggle").addEventListener("click", function () {
-    var current = root.getAttribute("data-theme") ||
+  function theme() {
+    return root.getAttribute("data-theme") ||
       (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    var next = current === "dark" ? "light" : "dark";
+  }
+  document.getElementById("theme-toggle").addEventListener("click", function () {
+    var next = theme() === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);
     store("theme", next);
+    if (opened) { opened = false; showPayment(); }      // Paddle's form takes its colours when it opens
   });
   document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -53,7 +59,7 @@
   var b = q.get("billing") || store("billing");
   billSel.value = b === "yearly" ? "yearly" : "monthly";
   billSel.querySelector('option[value="yearly"]').textContent = "Yearly (save " + discount + "%)";
-  el("co-test").hidden = !(paypal.sandbox && paypal.clientId);
+  el("co-test").hidden = !sandbox;
 
   function choice() {
     var plan = planSel.value, period = billSel.value;
@@ -79,15 +85,15 @@
     el("sum-disc-label").textContent = "Yearly discount (" + discount + "%)";
     el("sum-disc").textContent = "−" + money(c.cut);
     el("sum-total").textContent = money(c.total);
-    el("co-renew").textContent = c.period === "yearly"
-      ? "Renews every year at " + money(c.total) + ". Cancel any time."
-      : "Renews every month at " + money(c.total) + ". Cancel any time.";
+    el("co-renew").textContent = (c.period === "yearly"
+      ? "Renews every year at " + money(c.total) : "Renews every month at " + money(c.total)) +
+      " plus any tax. Cancel any time.";
     store("billing", c.period);
     history.replaceState(null, "", "?plan=" + c.plan + "&billing=" + c.period);
   }
 
-  function planId(c) {
-    var p = (paypal.plans || {})[c.plan];
+  function priceId(c) {
+    var p = (paddle.prices || {})[c.plan];
     return ((p && p[c.period]) || "").trim();
   }
   function buyLink(c) {
@@ -101,57 +107,82 @@
     e.hidden = !text;
   }
 
-  // PayPal's script is loaded once, only when there is a Client ID.
-  var sdk = null;
-  function loadPayPal() {
+  // Paddle.js is loaded once, only when there is a client-side token.
+  var sdk = null, opened = false, current = null;
+  function loadPaddle() {
     if (sdk) return sdk;
     sdk = new Promise(function (resolve, reject) {
       var s = document.createElement("script");
-      s.src = "https://www.paypal.com/sdk/js?client-id=" + encodeURIComponent(paypal.clientId) +
-        "&vault=true&intent=subscription&currency=USD";
-      s.setAttribute("data-sdk-integration-source", "button-factory");
-      s.onload = function () { resolve(window.paypal); };
-      s.onerror = function () { sdk = null; reject(new Error("PayPal didn't load")); };
+      s.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
+      s.onload = function () {
+        try {
+          if (sandbox) window.Paddle.Environment.set("sandbox");
+          window.Paddle.Initialize({ token: token, eventCallback: onPaddleEvent });
+          resolve(window.Paddle);
+        } catch (e) { reject(e); }
+      };
+      s.onerror = function () { sdk = null; reject(new Error("Paddle didn't load")); };
       document.head.appendChild(s);
     });
     return sdk;
   }
 
-  var buttons = null;
+  function onPaddleEvent(ev) {
+    if (!ev || !ev.name) return;
+    if (ev.name === "checkout.completed") {
+      var d = ev.data || {};
+      done(d.transaction_id || d.id, (d.customer && d.customer.email) || "", current);
+    } else if (ev.name === "checkout.error") {
+      showError("Something went wrong with the payment form. Please refresh the page and try again.");
+    } else if (ev.name === "checkout.payment.failed") {
+      showError("The payment didn't go through. Please check your details or try another card.");
+    }
+  }
+
   function showPayment() {
-    var c = choice(), id = planId(c), box = el("paypal-buttons"), alt = el("co-alt");
+    var c = choice(), id = priceId(c), box = el("paddle-checkout"), alt = el("co-alt");
     showError("");
-    if (buttons) { try { buttons.close(); } catch (e) { /* already gone */ } buttons = null; }
-    box.textContent = "";
-    box.hidden = false;
     alt.hidden = true;
     alt.textContent = "";
 
-    if (paypal.clientId && id) {
-      box.innerHTML = '<p class="co-loading">Loading secure payment…</p>';
-      loadPayPal().then(function (pp) {
-        if (planId(choice()) !== id) return;           // the choice changed while loading
+    if (token && id) {
+      box.hidden = false;
+      el("co-intro").hidden = false;
+      current = c;
+      if (!opened) box.innerHTML = '<p class="co-loading">Loading secure checkout…</p>';
+      loadPaddle().then(function (P) {
+        if (priceId(choice()) !== id) return;            // the choice changed while loading
+        var items = [{ priceId: id, quantity: 1 }];
+        var data = { plan: c.plan, period: c.period, source: "website" };
+        if (opened) {
+          if (P.Checkout.updateCheckout) P.Checkout.updateCheckout({ items: items, customData: data });
+          else P.Checkout.updateItems(items);
+          return;
+        }
         box.textContent = "";
-        buttons = pp.Buttons({
-          style: { shape: "pill", color: "gold", layout: "vertical", label: "subscribe" },
-          createSubscription: function (data, actions) {
-            return actions.subscription.create({ plan_id: id });
-          },
-          onApprove: function (data) { done(data.subscriptionID, c); },
-          onCancel: function () { showError("Payment cancelled. You can try again whenever you're ready."); },
-          onError: function () {
-            showError("Something went wrong with PayPal. Please try again, or use a different card.");
+        P.Checkout.open({
+          items: items,
+          customData: data,
+          settings: {
+            displayMode: "inline",
+            frameTarget: "paddle-checkout-frame",
+            frameInitialHeight: 450,
+            frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
+            theme: theme(),
+            locale: "en",
+            variant: "one-page",
           },
         });
-        buttons.render(box);
+        opened = true;
       }).catch(function () {
         box.textContent = "";
-        showError("Secure payment couldn't load. Please check your internet connection and refresh the page.");
+        showError("Secure checkout couldn't load. Please check your internet connection and refresh the page.");
       });
       return;
     }
 
     box.hidden = true;
+    el("co-intro").hidden = true;
     alt.hidden = false;
     var link = buyLink(c);
     if (link) {
@@ -170,25 +201,33 @@
     }
   }
 
-  function done(subscriptionId, c) {
+  function done(orderId, email, c) {
+    c = c || choice();
     el("co-form").hidden = true;
     el("co-done").hidden = false;
-    el("done-id").textContent = subscriptionId || "(see your PayPal receipt)";
+    el("done-id").textContent = orderId || "(see your receipt)";
+    if (email) el("done-email").textContent = email;
     el("step-pay").className = "done";
     el("step-start").className = "current";
-    if (contact) {
-      var a = document.createElement("a");
-      a.href = "mailto:" + contact + "?subject=" + encodeURIComponent("Licence code: " + PLANS[c.plan].name +
-        " (" + c.period + "), subscription " + subscriptionId) +
-        "&body=" + encodeURIComponent("Subscription: " + subscriptionId + "\nComputer code: ");
-      a.textContent = contact;
-      el("done-send").appendChild(document.createTextNode(" Email: "));
-      el("done-send").appendChild(a);
-    } else {
-      el("done-send").appendChild(document.createTextNode(" Just reply to your PayPal receipt email."));
+    var auto = cfg.licenceDelivery === "auto";
+    el("done-auto").hidden = !auto;
+    el("done-manual").hidden = auto;
+    if (!auto) {
+      if (contact) {
+        var a = document.createElement("a");
+        a.href = "mailto:" + contact + "?subject=" + encodeURIComponent("Licence code: " + PLANS[c.plan].name +
+          " (" + c.period + "), order " + orderId) +
+          "&body=" + encodeURIComponent("Order: " + orderId + "\nComputer code: ");
+        a.textContent = contact;
+        el("done-send").appendChild(document.createTextNode(" Email: "));
+        el("done-send").appendChild(a);
+      } else {
+        el("done-send").appendChild(document.createTextNode(" Just reply to your receipt email."));
+      }
     }
-    var dl = document.querySelector("#co-done [data-download]");
-    if (cfg.downloadUrl) dl.href = cfg.downloadUrl;
+    document.querySelectorAll("#co-done [data-download]").forEach(function (dl) {
+      if (cfg.downloadUrl) dl.href = cfg.downloadUrl;
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

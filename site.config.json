@@ -8,24 +8,9 @@
     "studio": 40
   },
   "yearlyDiscount": 10,
-  "buy": {
-    "writer": {
-      "monthly": "",
-      "yearly": ""
-    },
-    "pro": {
-      "monthly": "",
-      "yearly": ""
-    },
-    "studio": {
-      "monthly": "",
-      "yearly": ""
-    }
-  },
-  "paypal": {
-    "clientId": "",
-    "sandbox": true,
-    "plans": {
+  "paddle": {
+    "clientToken": "",
+    "prices": {
       "writer": {
         "monthly": "",
         "yearly": ""
@@ -40,6 +25,24 @@
       }
     }
   },
+  "licenceDelivery": "manual",
+  "buy": {
+    "writer": {
+      "monthly": "",
+      "yearly": ""
+    },
+    "pro": {
+      "monthly": "",
+      "yearly": ""
+    },
+    "studio": {
+      "monthly": "",
+      "yearly": ""
+    }
+  },
+  "legalName": "",
   "contactEmail": "",
+  "country": "Pakistan",
+  "legalUpdated": "20 October 2026",
   "launchOffer": ""
 }

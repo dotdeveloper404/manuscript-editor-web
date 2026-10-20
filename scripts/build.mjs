@@ -38,15 +38,17 @@ const config = {
       || (typeof saved === "string" ? saved : saved?.[period]) || "";
     return [plan, { monthly: pick("monthly"), yearly: pick("yearly") }];
   })),
-  // PayPal subscriptions on checkout.html: the app's Client ID (public) and a plan ID per plan and period.
-  paypal: {
-    clientId: process.env.PAYPAL_CLIENT_ID || defaults.paypal?.clientId || "",
-    sandbox: (process.env.PAYPAL_SANDBOX ?? String(defaults.paypal?.sandbox ?? true)) === "true",
-    plans: Object.fromEntries(["writer", "pro", "studio"].map((plan) => [plan, {
-      monthly: process.env[`PAYPAL_${plan.toUpperCase()}_MONTHLY`] || defaults.paypal?.plans?.[plan]?.monthly || "",
-      yearly: process.env[`PAYPAL_${plan.toUpperCase()}_YEARLY`] || defaults.paypal?.plans?.[plan]?.yearly || "",
+  // Paddle inline checkout on checkout.html: the client-side token (public; "test_…" = sandbox, "live_…" = live)
+  // and a price ID per plan and billing period.
+  paddle: {
+    clientToken: process.env.PADDLE_CLIENT_TOKEN || defaults.paddle?.clientToken || "",
+    prices: Object.fromEntries(["writer", "pro", "studio"].map((plan) => [plan, {
+      monthly: process.env[`PADDLE_${plan.toUpperCase()}_MONTHLY`] || defaults.paddle?.prices?.[plan]?.monthly || "",
+      yearly: process.env[`PADDLE_${plan.toUpperCase()}_YEARLY`] || defaults.paddle?.prices?.[plan]?.yearly || "",
     }])),
   },
+  // "auto" once the Paddle webhook emails licence keys; "manual" = the buyer sends their computer code.
+  licenceDelivery: process.env.LICENCE_DELIVERY || defaults.licenceDelivery || "manual",
   contactEmail: process.env.CONTACT_EMAIL || defaults.contactEmail || "",
   launchOffer: process.env.LAUNCH_OFFER || defaults.launchOffer || "",
 };
@@ -69,12 +71,27 @@ for (const page of pages) {
     else if (anchor && idsOf[file] && !idsOf[file].has(anchor)) problems.push(`${page}: link to ${file}#${anchor} has no matching id`);
   }
 }
-const planId = /^P-[A-Z0-9]{10,}$/;
-for (const [plan, ids2] of Object.entries(config.paypal.plans)) {
+const { clientToken } = config.paddle;
+if (clientToken && !/^(test|live)_[A-Za-z0-9]+$/.test(clientToken)) {
+  problems.push(`Paddle clientToken should start with test_ or live_ (got "${clientToken.slice(0, 8)}…")`);
+}
+for (const [plan, ids2] of Object.entries(config.paddle.prices)) {
   for (const [period, id] of Object.entries(ids2)) {
-    if (id && !planId.test(id)) problems.push(`PayPal plan ID for ${plan} (${period}) should look like P-XXXXXXXX (got "${id}")`);
-    if (id && !config.paypal.clientId) problems.push("PayPal plan IDs are set but paypal.clientId is empty");
+    if (id && !/^pri_[a-z0-9]{20,}$/.test(id)) problems.push(`Paddle price ID for ${plan} (${period}) should look like pri_01h… (got "${id}")`);
+    if (id && !clientToken) problems.push("Paddle price IDs are set but paddle.clientToken is empty");
   }
+}
+if (!["auto", "manual"].includes(config.licenceDelivery)) problems.push(`licenceDelivery must be "auto" or "manual"`);
+// Legal pages: {{LEGAL_NAME}}, {{CONTACT_EMAIL}}, {{COUNTRY}}, {{UPDATED}} are filled in from site.config.json.
+const legal = {
+  LEGAL_NAME: defaults.legalName || "",
+  CONTACT_EMAIL: config.contactEmail,
+  COUNTRY: defaults.country || "Pakistan",
+  UPDATED: defaults.legalUpdated || "",
+};
+const missingLegal = Object.entries(legal).filter(([, v]) => !v).map(([k]) => k);
+if (missingLegal.length) {
+  console.warn(`Warning: the policy pages need ${missingLegal.join(", ")} (legalName, contactEmail, country, legalUpdated in site.config.json).`);
 }
 if (config.downloadUrl && !/^https:\/\//.test(config.downloadUrl)) {
   problems.push(`DOWNLOAD_URL must start with https:// (got "${config.downloadUrl}")`);
@@ -106,5 +123,13 @@ mkdirSync(out, { recursive: true });
 for (const name of readdirSync(out)) rmSync(join(out, name), { recursive: true, force: true });
 cpSync(src, out, { recursive: true });
 writeFileSync(join(out, "config.js"), `window.SITE_CONFIG = ${JSON.stringify(config, null, 2)};\n`);
+const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const placeholder = { LEGAL_NAME: "the app's maker", CONTACT_EMAIL: "", COUNTRY: "Pakistan", UPDATED: "" };
+for (const page of pages) {
+  const file = join(out, page);
+  const html = readFileSync(file, "utf8").replace(/\{\{(LEGAL_NAME|CONTACT_EMAIL|COUNTRY|UPDATED)\}\}/g,
+    (_, k) => escapeHtml(legal[k] || placeholder[k]));
+  writeFileSync(file, html);
+}
 
 console.log(`Built dist/  download: ${config.downloadUrl || "(not set, button shows 'coming soon')"}`);

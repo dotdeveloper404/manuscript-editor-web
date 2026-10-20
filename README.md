@@ -58,49 +58,64 @@ The installer (`ManuscriptEditor-Setup.exe`) is too large to host on Vercel, so 
 
 Until `DOWNLOAD_URL` is set, the final button reads "Download coming soon".
 
-## Payments (PayPal subscriptions)
+## Payments (Paddle subscriptions)
 
-The pricing cards' **Choose** buttons open `checkout.html`, which shows the order and PayPal's payment buttons
-(PayPal account or a debit/credit card). Prices and the yearly discount are in `site.config.json` (`prices`,
-`yearlyDiscount`). Until PayPal is set up, checkout offers the free trial instead (or an email link if
-`contactEmail` is set).
+Paddle is our **Merchant of Record**: it sells to the customer, charges the right sales tax/VAT worldwide, sends
+receipts, handles refunds, and pays us out monthly (Payoneer or bank). PayPal and Stripe can't pay out to sellers in
+Pakistan, so we don't use them directly (customers can still choose PayPal inside Paddle's checkout).
 
-**1. Test first (no real money)**
-1. Log in at **developer.paypal.com** with your PayPal account → **Apps & Credentials** → **Sandbox** → **Create
-   App**. Copy its **Client ID**.
-2. On **sandbox.paypal.com** (log in with the sandbox *business* account listed under Testing Tools → Sandbox
-   Accounts), go to **Products & subscriptions** (or *Pay & Get Paid → Subscriptions*) and create one product,
-   "Manuscript Editor & Formatter", then **6 plans**. The prices must match the website:
+The pricing cards' **Choose** buttons open `checkout.html`: plan + Monthly/Yearly, our price summary, and Paddle's
+**inline checkout** (cards, PayPal, Apple Pay, Google Pay, in the buyer's currency). Settings in `site.config.json`:
 
-   | Plan | Monthly | Yearly |
+```json
+"paddle": {
+  "clientToken": "test_…",
+  "prices": {
+    "writer": { "monthly": "pri_…", "yearly": "pri_…" },
+    "pro":    { "monthly": "pri_…", "yearly": "pri_…" },
+    "studio": { "monthly": "pri_…", "yearly": "pri_…" }
+  }
+},
+"licenceDelivery": "manual",
+"legalName": "Your full legal name or business name",
+"contactEmail": "support@…",
+"country": "Pakistan",
+"legalUpdated": "20 October 2026"
+```
+
+A token starting `test_` uses Paddle's sandbox (no real money; the page shows "Test mode"); `live_` is live.
+Until a token and price IDs are set, checkout offers the free trial (or an email link if `contactEmail` is set).
+`legalName`, `contactEmail`, `country` and `legalUpdated` are filled into the Terms, Privacy and Refund pages.
+
+**1. Test in the sandbox (no real money)**
+1. Sign up at **sandbox-vendors.paddle.com** (separate from your live account).
+2. **Catalog → Products → New product**: "Manuscript Editor & Formatter", tax category **Standard digital goods**
+   (or "Software"). Add 6 **prices** to it, each recurring:
+
+   | Price name | Amount | Billing period |
    | --- | --- | --- |
-   | Writer | $10 every 1 month | $108 every 1 year |
-   | Author Pro | $20 every 1 month | $216 every 1 year |
-   | Studio | $40 every 1 month | $432 every 1 year |
+   | Writer monthly | $10.00 | every 1 month |
+   | Writer yearly | $108.00 | every 1 year |
+   | Author Pro monthly | $20.00 | every 1 month |
+   | Author Pro yearly | $216.00 | every 1 year |
+   | Studio monthly | $40.00 | every 1 month |
+   | Studio yearly | $432.00 | every 1 year |
 
-   Each plan has an ID like `P-5ML4271244454362WXNWU5NQ`.
-3. Put them in `site.config.json`, keep `"sandbox": true`, then commit and push:
+   Each price has an ID like `pri_01hxyz…`.
+3. **Developer tools → Authentication → Client-side tokens → New client-side token.** Copy it (`test_…`).
+   This one is safe to put on the website. Never share an **API key** (it starts `pdl_`).
+4. **Checkout → Checkout settings → Default payment link:** `https://manuscript-editor-web.vercel.app/checkout.html`.
+5. Put the token and the 6 price IDs in `site.config.json`, commit, push.
+6. On the live site, choose a plan and pay with Paddle's test card **4242 4242 4242 4242**, any future expiry date,
+   CVC 100.
 
-   ```json
-   "paypal": {
-     "clientId": "your sandbox Client ID",
-     "sandbox": true,
-     "plans": {
-       "writer": { "monthly": "P-…", "yearly": "P-…" },
-       "pro":    { "monthly": "P-…", "yearly": "P-…" },
-       "studio": { "monthly": "P-…", "yearly": "P-…" }
-     }
-   }
-   ```
-4. On the live site, choose a plan and pay with a sandbox *personal* account. The page shows "Test mode".
+**2. Go live** (after Paddle approves your account and website)
+Repeat steps 2–5 in your live account (**vendors.paddle.com**): same product and prices, a `live_` client-side
+token, the same default payment link. Then commit and push. Under **Business account → Payouts**, add Payoneer.
 
-**2. Go live**
-Repeat steps 1–3 under **Live** (developer.paypal.com → Live → Create App; create the same 6 plans in your real
-PayPal business account), put the live Client ID and plan IDs in, set `"sandbox": false`, push.
-
-**After a sale:** PayPal emails you. The customer sends you their computer code and subscription number (the
-thank-you page asks them to). Make a licence in the Licence Manager. Set `contactEmail` in `site.config.json` so
-the checkout shows your address.
+**After a sale:** while `licenceDelivery` is `"manual"`, the thank-you page asks the buyer to send their computer
+code, and you make a licence in the Licence Manager. Once the Paddle webhook and the licence service are live, set it
+to `"auto"`: the licence key is emailed within a minute.
 
 ## Work on it locally
 
