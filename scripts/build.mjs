@@ -38,19 +38,43 @@ const config = {
       || (typeof saved === "string" ? saved : saved?.[period]) || "";
     return [plan, { monthly: pick("monthly"), yearly: pick("yearly") }];
   })),
+  // PayPal subscriptions on checkout.html: the app's Client ID (public) and a plan ID per plan and period.
+  paypal: {
+    clientId: process.env.PAYPAL_CLIENT_ID || defaults.paypal?.clientId || "",
+    sandbox: (process.env.PAYPAL_SANDBOX ?? String(defaults.paypal?.sandbox ?? true)) === "true",
+    plans: Object.fromEntries(["writer", "pro", "studio"].map((plan) => [plan, {
+      monthly: process.env[`PAYPAL_${plan.toUpperCase()}_MONTHLY`] || defaults.paypal?.plans?.[plan]?.monthly || "",
+      yearly: process.env[`PAYPAL_${plan.toUpperCase()}_YEARLY`] || defaults.paypal?.plans?.[plan]?.yearly || "",
+    }])),
+  },
   contactEmail: process.env.CONTACT_EMAIL || defaults.contactEmail || "",
   launchOffer: process.env.LAUNCH_OFFER || defaults.launchOffer || "",
 };
 
 const problems = [];
-const html = readFileSync(join(src, "index.html"), "utf8");
-
-const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
-for (const [, target] of html.matchAll(/href="#([^"]*)"/g)) {
-  if (target && !ids.has(target)) problems.push(`Link to #${target} has no matching id`);
+const pages = readdirSync(src).filter((f) => f.endsWith(".html"));
+const idsOf = Object.fromEntries(pages.map((p) => {
+  const html = readFileSync(join(src, p), "utf8");
+  return [p, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]))];
+}));
+const ids = idsOf["index.html"];
+for (const page of pages) {
+  const html = readFileSync(join(src, page), "utf8");
+  for (const [, target] of html.matchAll(/href="#([^"]*)"/g)) {
+    if (target && !idsOf[page].has(target)) problems.push(`${page}: link to #${target} has no matching id`);
+  }
+  for (const [, ref] of html.matchAll(/(?:src|href)="(?!https?:|#|data:|mailto:)([^"]+)"/g)) {
+    const [file, anchor] = ref.split("?")[0].split("#");
+    if (file !== "config.js" && !existsSync(join(src, file))) problems.push(`${page}: missing file ${file}`);
+    else if (anchor && idsOf[file] && !idsOf[file].has(anchor)) problems.push(`${page}: link to ${file}#${anchor} has no matching id`);
+  }
 }
-for (const [, file] of html.matchAll(/(?:src|href)="(?!https?:|#|data:|mailto:)([^"]+)"/g)) {
-  if (file !== "config.js" && !existsSync(join(src, file))) problems.push(`Missing file: ${file}`);
+const planId = /^P-[A-Z0-9]{10,}$/;
+for (const [plan, ids2] of Object.entries(config.paypal.plans)) {
+  for (const [period, id] of Object.entries(ids2)) {
+    if (id && !planId.test(id)) problems.push(`PayPal plan ID for ${plan} (${period}) should look like P-XXXXXXXX (got "${id}")`);
+    if (id && !config.paypal.clientId) problems.push("PayPal plan IDs are set but paypal.clientId is empty");
+  }
 }
 if (config.downloadUrl && !/^https:\/\//.test(config.downloadUrl)) {
   problems.push(`DOWNLOAD_URL must start with https:// (got "${config.downloadUrl}")`);

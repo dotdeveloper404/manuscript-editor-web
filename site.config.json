@@ -22,6 +22,24 @@
       "yearly": ""
     }
   },
+  "paypal": {
+    "clientId": "",
+    "sandbox": true,
+    "plans": {
+      "writer": {
+        "monthly": "",
+        "yearly": ""
+      },
+      "pro": {
+        "monthly": "",
+        "yearly": ""
+      },
+      "studio": {
+        "monthly": "",
+        "yearly": ""
+      }
+    }
+  },
   "contactEmail": "",
   "launchOffer": ""
 }

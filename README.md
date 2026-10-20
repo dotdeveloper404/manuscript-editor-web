@@ -58,6 +58,50 @@ The installer (`ManuscriptEditor-Setup.exe`) is too large to host on Vercel, so 
 
 Until `DOWNLOAD_URL` is set, the final button reads "Download coming soon".
 
+## Payments (PayPal subscriptions)
+
+The pricing cards' **Choose** buttons open `checkout.html`, which shows the order and PayPal's payment buttons
+(PayPal account or a debit/credit card). Prices and the yearly discount are in `site.config.json` (`prices`,
+`yearlyDiscount`). Until PayPal is set up, checkout offers the free trial instead (or an email link if
+`contactEmail` is set).
+
+**1. Test first (no real money)**
+1. Log in at **developer.paypal.com** with your PayPal account → **Apps & Credentials** → **Sandbox** → **Create
+   App**. Copy its **Client ID**.
+2. On **sandbox.paypal.com** (log in with the sandbox *business* account listed under Testing Tools → Sandbox
+   Accounts), go to **Products & subscriptions** (or *Pay & Get Paid → Subscriptions*) and create one product,
+   "Manuscript Editor & Formatter", then **6 plans**. The prices must match the website:
+
+   | Plan | Monthly | Yearly |
+   | --- | --- | --- |
+   | Writer | $10 every 1 month | $108 every 1 year |
+   | Author Pro | $20 every 1 month | $216 every 1 year |
+   | Studio | $40 every 1 month | $432 every 1 year |
+
+   Each plan has an ID like `P-5ML4271244454362WXNWU5NQ`.
+3. Put them in `site.config.json`, keep `"sandbox": true`, then commit and push:
+
+   ```json
+   "paypal": {
+     "clientId": "your sandbox Client ID",
+     "sandbox": true,
+     "plans": {
+       "writer": { "monthly": "P-…", "yearly": "P-…" },
+       "pro":    { "monthly": "P-…", "yearly": "P-…" },
+       "studio": { "monthly": "P-…", "yearly": "P-…" }
+     }
+   }
+   ```
+4. On the live site, choose a plan and pay with a sandbox *personal* account. The page shows "Test mode".
+
+**2. Go live**
+Repeat steps 1–3 under **Live** (developer.paypal.com → Live → Create App; create the same 6 plans in your real
+PayPal business account), put the live Client ID and plan IDs in, set `"sandbox": false`, push.
+
+**After a sale:** PayPal emails you. The customer sends you their computer code and subscription number (the
+thank-you page asks them to). Make a licence in the Licence Manager. Set `contactEmail` in `site.config.json` so
+the checkout shows your address.
+
 ## Work on it locally
 
 ```bash

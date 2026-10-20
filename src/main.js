@@ -63,14 +63,6 @@
   var discount = typeof cfg.yearlyDiscount === "number" ? cfg.yearlyDiscount : 10;
   function money(n) { return "$" + (Math.round(n * 100) % 100 ? n.toFixed(2) : String(Math.round(n))); }
 
-  // Buy buttons: a checkout link per plan and billing period, else an email to the seller, else "coming soon".
-  var buy = cfg.buy || {};
-  var contact = (cfg.contactEmail || "").trim();
-  var planNames = { writer: "Writer", pro: "Author Pro", studio: "Studio" };
-  function buyLink(plan, period) {
-    var entry = buy[plan];
-    return ((typeof entry === "string" ? entry : entry && entry[period]) || "").trim();
-  }
 
   var billing = document.getElementById("billing");
   function showBilling() {
@@ -90,31 +82,12 @@
         billed.textContent = "Billed monthly. Cancel any time.";
       }
     });
+    // Choose buttons open the checkout page with this plan and billing period.
     document.querySelectorAll("[data-buy]").forEach(function (a) {
-      var plan = a.getAttribute("data-buy");
-      var link = buyLink(plan, period);
-      if (!a.getAttribute("data-label")) a.setAttribute("data-label", a.textContent);
-      a.classList.remove("is-disabled");
-      a.removeAttribute("aria-disabled");
-      a.textContent = a.getAttribute("data-label");
-      if (link) {
-        a.setAttribute("href", link);
-        a.setAttribute("rel", "noopener");
-      } else if (contact) {
-        a.setAttribute("href", "mailto:" + contact + "?subject=" + encodeURIComponent(
-          "Buy Manuscript Editor & Formatter: " + planNames[plan] + " (" + period + ")"));
-      } else {
-        a.setAttribute("href", "#pricing");
-        a.textContent = "Available soon";
-        a.classList.add("is-disabled");
-        a.setAttribute("aria-disabled", "true");
-      }
+      a.setAttribute("href", "checkout.html?plan=" + a.getAttribute("data-buy") + "&billing=" + period);
     });
     store("billing", period);
   }
-  document.querySelectorAll("[data-buy]").forEach(function (a) {
-    a.addEventListener("click", function (e) { if (a.classList.contains("is-disabled")) e.preventDefault(); });
-  });
   if (store("billing") === "yearly") billing.value = "yearly";
   billing.addEventListener("change", showBilling);
   showBilling();

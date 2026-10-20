@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout · Manuscript Editor &amp; Formatter</title>
+  <meta name="description" content="Choose monthly or yearly billing and subscribe securely with PayPal or a card.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0f1222">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html" aria-label="Manuscript Editor &amp; Formatter home">
+        <img src="favicon.svg" alt="" width="34" height="34">
+        <span class="brand-name">Manuscript<small>Editor &amp; Formatter</small></span>
+      </a>
+      <div class="nav-actions">
+        <a class="back-link" href="index.html#pricing">← Back<span> to plans</span></a>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="checkout">
+    <div class="glow glow-a" aria-hidden="true"></div>
+    <div class="wrap">
+      <ol class="co-steps" aria-label="Checkout steps">
+        <li class="done">Choose a plan</li>
+        <li class="current" id="step-pay">Pay securely</li>
+        <li id="step-start">Start writing</li>
+      </ol>
+
+      <div class="co-grid" id="co-form">
+        <section class="co-card" aria-labelledby="plan-h">
+          <h1 id="plan-h">Your plan</h1>
+          <div class="co-fields">
+            <label>Plan
+              <select id="co-plan">
+                <option value="writer">Writer</option>
+                <option value="pro">Author Pro</option>
+                <option value="studio">Studio</option>
+              </select>
+            </label>
+            <label>Billing
+              <select id="co-billing">
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly (save 10%)</option>
+              </select>
+            </label>
+          </div>
+          <p class="co-for" id="co-for"></p>
+          <ul class="co-features" id="co-features"></ul>
+
+          <dl class="co-sum">
+            <div><dt id="sum-label">Author Pro, monthly</dt><dd id="sum-base">$20.00</dd></div>
+            <div class="disc" id="sum-disc-row" hidden><dt id="sum-disc-label">Yearly discount (10%)</dt><dd id="sum-disc">−$0.00</dd></div>
+            <div class="total"><dt>Total today</dt><dd id="sum-total">$20.00</dd></div>
+          </dl>
+          <p class="co-renew" id="co-renew">Renews every month. Cancel any time.</p>
+        </section>
+
+        <section class="co-card co-pay" aria-labelledby="pay-h">
+          <h2 id="pay-h">Payment</h2>
+          <p class="co-test" id="co-test" hidden>Test mode: no real money is charged.</p>
+          <p class="co-muted">Pay with PayPal or a debit/credit card. Your card details go straight to PayPal; we never see them.</p>
+          <div id="paypal-buttons" class="co-buttons"></div>
+          <div id="co-alt" class="co-alt" hidden></div>
+          <p class="co-error" id="co-error" role="alert" hidden></p>
+          <ul class="co-trust">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure payment by PayPal</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Cancel any time from your PayPal account</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>30-day money-back guarantee</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="co-card co-done" id="co-done" hidden aria-live="polite">
+        <div class="co-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></svg></div>
+        <h1>Thank you! Your subscription is active.</h1>
+        <p class="co-muted">PayPal has emailed you a receipt. Your subscription number is <b id="done-id"></b>. Please keep it.</p>
+        <ol class="co-next">
+          <li><b>Download and install</b> Manuscript Editor &amp; Formatter, if you haven't yet.
+            <a class="btn btn-primary btn-sm" href="index.html#download" data-download>Download for Windows</a></li>
+          <li><b>Open the app</b>, click <b>Licence</b> (top right) and copy your <b>computer code</b>.</li>
+          <li id="done-send"><b>Send us</b> your computer code and subscription number. We'll reply with your licence code
+            to paste into the same page.</li>
+        </ol>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-inner">
+      <a class="brand" href="index.html"><img src="favicon.svg" alt="" width="28" height="28"><span class="brand-name">Manuscript<small>Editor &amp; Formatter</small></span></a>
+      <p>Prices in US dollars. Local taxes may apply.</p>
+      <p class="copy">© <span id="year">2026</span> Manuscript Editor &amp; Formatter</p>
+    </div>
+  </footer>
+
+  <script src="checkout.js"></script>
+</body>
+</html>
